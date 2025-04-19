@@ -1,0 +1,32 @@
+### GET request to example server
+## findByEmail
+POST http://localhost:3000/api/v1/auth
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "ricardo",
+  "email": "prueba3@gmail.com",
+  "phone": "910162151"
+}
+
+### getUserParam
+### para valores unicos sin espacios
+GET http://localhost:3000/api/v1/users/Jhon
+
+### query es el recomendado y recomendado cuando se usa con espacios
+GET http://localhost:3000/api/v1/users/query?name=Jhon
+
+### para valores unicos sin espacios
+GET http://localhost:3000/api/v1/users/1
+
+###
+POST http://localhost:3000/api/v1/users
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "ricardo",
+  "email": "prueba3@gmail.com",
+  "phone": "910162151"
+}
