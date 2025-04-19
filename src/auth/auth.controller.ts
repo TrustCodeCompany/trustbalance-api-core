@@ -1,22 +1,48 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { GetUserProfileUseCase } from '../application/use-cases/get-user-profile.usecase';
+import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { LoginUserDto } from './dto/login.dto';
+import { LoginUserUseCase } from '../application/use-cases/login-user.usecase';
 import { CreateUserDto } from './dto/create-user.dto';
 import { RegisterUserUseCase } from '../application/use-cases/register-user.usecase';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly createUserUseCase: RegisterUserUseCase) {}
+  constructor(
+    private readonly getUserProfileUseCase: GetUserProfileUseCase,
+    private readonly loginUserUseCase: LoginUserUseCase,
+    private readonly registerUserUseCase: RegisterUserUseCase,
+  ) {}
 
-  @Post()
-  create(@Body() createAuthDto: CreateUserDto) {
-    return this.createUserUseCase.execute(createAuthDto);
+  @Get('/query')
+  @ApiQuery({
+    name: 'email',
+    type: 'string',
+    example: 'micorreo@gmail.com',
+    pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
+    description: 'se debe ingresar un correo valido existente',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  profile(@Query('email') email: string) {
+    return this.getUserProfileUseCase.execute(email);
   }
 
-  /*@Post()
-  create(@Body() createAuthDto: CreateUserDto) {
-    return this.authService.create(createAuthDto);
+  @Post('sign-in')
+  login(@Body() loginUserDto: LoginUserDto) {
+    return this.loginUserUseCase.execute(loginUserDto);
   }
 
-  @Get()
+  @Post('sign-up')
+  register(@Body() createUserDto: CreateUserDto) {
+    return this.registerUserUseCase.execute(createUserDto);
+  }
+
+  /*@Get()
   findAll() {
     return this.authService.findAll();
   }
