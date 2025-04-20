@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { GetUserProfileUseCase } from '../application/use-cases/get-user-profile.usecase';
-import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginUserDto } from './dto/login.dto';
 import { LoginUserUseCase } from '../application/use-cases/login-user.usecase';
 import { CreateUserDto } from './dto/create-user.dto';
 import { RegisterUserUseCase } from '../application/use-cases/register-user.usecase';
+import { JwtAuthGuard } from '../infrastructure/auth/guards/jwt-auth.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -15,6 +16,7 @@ export class AuthController {
     private readonly registerUserUseCase: RegisterUserUseCase,
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get('/query')
   @ApiQuery({
     name: 'email',
@@ -23,6 +25,7 @@ export class AuthController {
     pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
     description: 'se debe ingresar un correo valido existente',
   })
+  @ApiBearerAuth()
   @ApiResponse({
     status: 201,
     description: 'The record has been successfully created.',

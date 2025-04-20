@@ -14,6 +14,11 @@ import { SubscriptionEntity } from '../infrastructure/persistence/entities/subsc
 import { CompanySubscriptionEntity } from '../infrastructure/persistence/entities/companySubscription.entity';
 import { ClientEntity } from '../infrastructure/persistence/entities/client.entity';
 import { SendGridEmailService } from '../infrastructure/external-services/email/sendgrid-email.service';
+import { JwtServiceImpl } from '../infrastructure/auth/jwt.service';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtAuthGuard } from '../infrastructure/auth/guards/jwt-auth.guard';
+import { JwtStrategy } from '../infrastructure/auth/jwt.strategy';
 
 @Module({
   imports: [
@@ -25,6 +30,11 @@ import { SendGridEmailService } from '../infrastructure/external-services/email/
       CompanySubscriptionEntity,
       ClientEntity,
     ]),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET || 'your-secret-key', // Usa una variable de entorno en producción
+      signOptions: { expiresIn: '1h' },
+    }),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   controllers: [AuthController],
   providers: [
@@ -33,6 +43,8 @@ import { SendGridEmailService } from '../infrastructure/external-services/email/
     GetUserProfileUseCase,
     LoginUserUseCase,
     UserEntityMapper,
+    JwtStrategy, // Asegúrate de incluir la estrategia
+    JwtAuthGuard, // Incluye el guard si lo vas a usar globalmente
     {
       provide: 'UserRepository',
       useClass: UserRepository,
@@ -40,6 +52,10 @@ import { SendGridEmailService } from '../infrastructure/external-services/email/
     {
       provide: 'EmailService',
       useClass: SendGridEmailService,
+    },
+    {
+      provide: 'JwtService',
+      useClass: JwtServiceImpl,
     },
   ],
 })
