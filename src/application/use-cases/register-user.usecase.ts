@@ -52,14 +52,15 @@ export class RegisterUserUseCase {
     );
 
     await this.userService.createUser(user).then(async () => {
+      console.log(password);
       const emailToSend: EmailData = {
         to: userData.email,
         from: 'trustcodesac@gmail.com',
-        subject: 'creacion de cuenta2',
+        subject: 'creacion de cuenta',
         html: `<p>Hola ${userData.name} ${userData.lastName}, tu cuenta esta creada y esta es tu <strong>contraseña: ${password}</strong>, por favor asegurate de cambiarla luego de iniciar sesion.</p>`,
       };
 
-      await this.emailService.sendEmail(emailToSend);
+      //await this.emailService.sendEmail(emailToSend);
     });
 
     return OperationResult.success('usuario creado');
