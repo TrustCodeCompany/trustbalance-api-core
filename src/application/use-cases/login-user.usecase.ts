@@ -1,19 +1,27 @@
-import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../../auth/auth.service';
 import { compare } from 'bcrypt';
 import { LoginUserDto } from '../../auth/dto/login.dto';
 import { plainToClass } from 'class-transformer';
 import { AuthResponseDto } from '../dtos/response/auth-response.dto';
 import { JwtService } from '../../domain/services/jwt.service.interface';
+import { LoggerPort } from '../../domain/services/logger.service.interface';
 
 @Injectable()
 export class LoginUserUseCase {
   constructor(
     private userService: UserService,
     @Inject('JwtService') private readonly jwtService: JwtService,
+    @Inject('LoggerPort') private readonly logger: LoggerPort,
   ) {}
 
   async execute(loginUserDto: LoginUserDto): Promise<AuthResponseDto> {
+    this.logger.debug(`Successfully log in`, 'LoginUserUseCase', {
+      email: loginUserDto.email,
+      mask: ['email'],
+      maskOptions: { email: { showStart: 8, showEnd: 0 } },
+    });
+
     const user = await this.userService.findByEmail(loginUserDto.email);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
