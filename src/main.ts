@@ -15,7 +15,6 @@ async function bootstrap() {
 
   // Luego, cargar el archivo específico del entorno, sobrescribiendo las variables si es necesario
   config({ path: envFilePath, override: true });
-
   const app = await NestFactory.create(AppModule);
 
   const configSwagger = new DocumentBuilder()
@@ -32,7 +31,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   await app.listen(process.env.PORT ?? 3000);
   console.log(
-    `Application is running on: ${await app.getUrl()} in ${environment} mode`,
+    `Application is running on: ${await app.getUrl()} in ${environment} mode, nivel de log ${process.env.LOG_LEVEL}`,
   );
 }
 bootstrap();
