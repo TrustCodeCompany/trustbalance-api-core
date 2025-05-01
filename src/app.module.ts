@@ -3,6 +3,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { typeOrmConfig } from './infrastructure/config/database.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ClientModule } from './client/client.module';
 import { LoggerModule } from './infrastructure/logger/logger.module';
 import { LoggerMiddleware } from './infrastructure/http/logger.middleware';
 
@@ -14,6 +15,7 @@ import { LoggerMiddleware } from './infrastructure/http/logger.middleware';
       //autoLoadEntities: true, // Carga automáticamente las entidades registradas
     }),
     AuthModule,
+    ClientModule,
   ],
   //controllers: [AppController],
   providers: [AppService],
