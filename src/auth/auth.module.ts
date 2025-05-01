@@ -19,6 +19,8 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtAuthGuard } from '../infrastructure/auth/guards/jwt-auth.guard';
 import { JwtStrategy } from '../infrastructure/auth/jwt.strategy';
+import { LoggerModule } from '../infrastructure/logger/logger.module';
+import { WinstonLoggerAdapter } from '../infrastructure/logger/winston-logger.adapter';
 
 @Module({
   imports: [
@@ -35,6 +37,7 @@ import { JwtStrategy } from '../infrastructure/auth/jwt.strategy';
       signOptions: { expiresIn: '1h' },
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
+    LoggerModule,
   ],
   controllers: [AuthController],
   providers: [
@@ -57,6 +60,10 @@ import { JwtStrategy } from '../infrastructure/auth/jwt.strategy';
       provide: 'JwtService',
       useClass: JwtServiceImpl,
     },
+    /*{
+      provide: 'winLoggerPort',
+      useClass: WinstonLoggerAdapter,
+    },*/
   ],
 })
 export class AuthModule {}

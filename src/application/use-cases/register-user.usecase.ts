@@ -10,12 +10,14 @@ import { Role } from '../../domain/entities/role.entity';
 import { OperationResult } from '../../domain/entities/OperationResult';
 import { EmailService } from '../../domain/services/email.service.interface';
 import { EmailData } from '../../domain/entities/email.entity';
+import { LoggerPort } from '../../domain/services/logger.service.interface';
 
 @Injectable()
 export class RegisterUserUseCase {
   constructor(
     private userService: UserService,
     @Inject('EmailService') private readonly emailService: EmailService,
+    @Inject('LoggerPort') private readonly logger: LoggerPort,
   ) {}
 
   async execute(userData: CreateUserDto): Promise<OperationResult> {
@@ -50,7 +52,6 @@ export class RegisterUserUseCase {
       arr,
       company,
     );
-
     await this.userService.createUser(user).then(async () => {
       const emailToSend: EmailData = {
         to: userData.email,
