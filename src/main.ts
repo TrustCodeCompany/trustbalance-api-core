@@ -17,6 +17,16 @@ async function bootstrap() {
   config({ path: envFilePath, override: true });
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({
+    origin: [
+      '*', // Reemplaza con tu frontend real
+      'https://trustbalance.vercel.app',
+      //'http://localhost:5173/', // Útil en desarrollo local
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true, // Si usas cookies o autenticación
+  });
+
   const configSwagger = new DocumentBuilder()
     .setTitle('Trust Balance Core Api')
     .setDescription('--')
