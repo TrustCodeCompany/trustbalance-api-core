@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { UserRepositoryPort } from '../../domain/repositories/user.repository.interface';
-import { plainToClass } from 'class-transformer';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
 import { User } from '../../domain/entities/user.entity';
@@ -80,23 +79,24 @@ export class UserRepository implements UserRepositoryPort {
       await queryRunner.release();
     }
   }
-
-  async findByEmail(email: string): Promise<User | null> {
-    try {
-      const userEntity: UserEntity | null = await this.repository.findOne({
-        where: {
-          email: email,
-        },
-      });
-
-      if (!userEntity) return null;
-
-      return plainToClass(User, userEntity);
-    } catch (error) {
-      console.error('Error findByEmail user:', error);
-      throw error;
-    }
-  }
+  
+    async findByEmail(email: string): Promise<User | null> {
+      try {
+          const findByEmail: UserEntity | null = await this.repository.findOne({
+              where: { email: email },
+              relations: [
+                'roles', 
+                'company', 
+                'company.subscriptions', 
+                'company.subscriptions.subscription',
+              ]
+          });
+          return this.mapper.toDomain(findByEmail);
+      } catch (error) {
+          console.error('Error findByEmail user:', error);
+          throw error;
+      }
+}   
 
   /*async save(auth: Auth): Promise<void> {
     // Mapear de entidad de dominio (Auth) a entidad de base de datos (AuthEntity)

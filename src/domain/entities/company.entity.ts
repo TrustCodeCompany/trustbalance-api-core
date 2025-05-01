@@ -1,5 +1,6 @@
 import { ClientData } from '../data/client.data';
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
+import { CompanySubscriptionEntity } from 'src/infrastructure/persistence/entities/companySubscription.entity';
 
 export class Company {
   @Expose()
@@ -13,6 +14,10 @@ export class Company {
 
   @Expose()
   readonly clients!: ClientData[];
+
+  @Type(() => CompanySubscriptionEntity)
+  @Expose()
+  readonly subscriptions: CompanySubscriptionEntity[];
 
   constructor(id: number, name: string, ruc: string) {
     this.id = id;
