@@ -1,6 +1,6 @@
 import { ClientData } from '../data/client.data';
 import { Expose, Type } from 'class-transformer';
-import { CompanySubscriptionEntity } from 'src/infrastructure/persistence/entities/companySubscription.entity';
+import { CompanySubscriptionEntity } from '../../infrastructure/persistence/entities/companySubscription.entity';
 
 export class Company {
   @Expose()

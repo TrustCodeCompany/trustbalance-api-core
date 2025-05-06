@@ -13,8 +13,8 @@ import { LoginUserUseCase } from '../application/use-cases/login-user.usecase';
 import { CreateUserDto } from './dto/create-user.dto';
 import { RegisterUserUseCase } from '../application/use-cases/register-user.usecase';
 import { JwtAuthGuard } from '../infrastructure/auth/guards/jwt-auth.guard';
-import { Roles } from 'src/infrastructure/auth/decorators/role-decorator';
-import { RolesGuard } from 'src/infrastructure/auth/guards/roles-guard';
+import { RolesGuard } from '../infrastructure/auth/guards/roles-guard';
+import { Roles } from '../infrastructure/auth/decorators/role-decorator';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -49,7 +49,8 @@ export class AuthController {
   })
   getProfile(@Request() req: any) {
     const roles = ['MODERATOR', 'ADMIN', 'USER'];
-    const email = req.user.email; 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+    const email = req.user.email;
     return this.getUserProfileUseCase.execute(email, roles);
   }
 

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { ClientService } from 'src/client/client.service';
-import { CreateClientRequestDto } from 'src/client/dto/create-client-request.dto';
-import { Client } from 'src/domain/entities/client.entity';
-import { Company } from 'src/domain/entities/company.entity';
-import { OperationResult } from 'src/domain/entities/OperationResult';
 import { RucAlreadyExistsException } from '../exceptions/ruc-already-exist.exception';
+import { ClientService } from '../../client/client.service';
+import { CreateClientRequestDto } from '../../client/dto/create-client-request.dto';
+import { OperationResult } from '../../domain/entities/OperationResult';
+import { Company } from '../../domain/entities/company.entity';
+import { Client } from '../../domain/entities/client.entity';
 
 @Injectable()
 export class CreateClientUseCase {
@@ -17,7 +17,7 @@ export class CreateClientUseCase {
       );
     } */
 
-    if ((await this.clientService.clientExistByRuc(clientData.ruc))) {
+    if (await this.clientService.clientExistByRuc(clientData.ruc)) {
       throw new RucAlreadyExistsException(clientData.ruc);
     }
 

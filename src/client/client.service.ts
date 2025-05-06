@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ClientRepositoryPort } from 'src/domain/repositories/client.repository.interface';
-import { Client } from 'src/domain/entities/client.entity';
+import { ClientRepositoryPort } from '../domain/repositories/client.repository.interface';
+import { Client } from '../domain/entities/client.entity';
 
 @Injectable()
 export class ClientService {
@@ -9,7 +9,7 @@ export class ClientService {
     private readonly clientRepository: ClientRepositoryPort,
   ) {}
 
-  async clientExistByRuc(ruc: string): Promise<Boolean> {
+  async clientExistByRuc(ruc: string): Promise<boolean> {
     return (await this.clientRepository.findByRuc(ruc)) != null;
   }
 
