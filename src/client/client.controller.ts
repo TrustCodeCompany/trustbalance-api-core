@@ -1,16 +1,15 @@
-import { CreateClientUseCase } from './../application/use-cases/create-client.usecase';
-import { Controller, Post, Body, UseGuards} from '@nestjs/common';
+import { CreateClientUseCase } from '../application/use-cases/create-client.usecase';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { CreateClientRequestDto } from './dto/create-client-request.dto';
-import { JwtAuthGuard } from 'src/infrastructure/auth/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/infrastructure/auth/guards/roles-guard';
-import { Roles } from 'src/infrastructure/auth/decorators/role-decorator';
+
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../infrastructure/auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../infrastructure/auth/guards/roles-guard';
+import { Roles } from '../infrastructure/auth/decorators/role-decorator';
 
 @Controller('client')
 export class ClientController {
-  constructor(
-    private readonly createClientUseCase: CreateClientUseCase,
-  ) {}
+  constructor(private readonly createClientUseCase: CreateClientUseCase) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('MODERATOR', 'ADMIN', 'USER')

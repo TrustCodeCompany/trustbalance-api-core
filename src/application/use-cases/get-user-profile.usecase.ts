@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from '../../auth/auth.service';
 import { plainToClass } from 'class-transformer';
-import { GetUserProfileResponseDTO } from 'src/application/dtos/response/get-user-profile-response.dto';
+import { GetUserProfileResponseDTO } from '../dtos/response/get-user-profile-response.dto';
 
 @Injectable()
 export class GetUserProfileUseCase {

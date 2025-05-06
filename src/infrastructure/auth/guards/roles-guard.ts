@@ -19,16 +19,20 @@ export class RolesGuard implements CanActivate {
       return true;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { user } = context.switchToHttp().getRequest();
 
     // Verificamos si user.roles está definido y es un array
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (!user || !user.roles || !Array.isArray(user.roles)) {
       throw new ForbiddenException(
         'No tienes permisos para acceder a este recurso',
       );
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-member-access
     const userRoles = user.roles.map((role) => role.name);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     const hasRole = requiredRoles.some((role) => userRoles.includes(role));
 
     if (!hasRole) {
