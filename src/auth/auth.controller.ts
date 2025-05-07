@@ -50,7 +50,7 @@ export class AuthController {
   getProfile(@Request() req: any) {
     const roles = ['MODERATOR', 'ADMIN', 'USER'];
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-    const email = req.user.email;
+    const email: string = req.user.email;
     return this.getUserProfileUseCase.execute(email, roles);
   }
 

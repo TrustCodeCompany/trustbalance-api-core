@@ -44,4 +44,4 @@ async function bootstrap() {
     `Application is running on: ${await app.getUrl()} in ${environment} mode, nivel de log ${process.env.LOG_LEVEL}`,
   );
 }
-bootstrap();
+void bootstrap();

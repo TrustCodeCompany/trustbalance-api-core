@@ -18,7 +18,7 @@ export class ClientsByCompanyData {
     data.ruc = company.ruc;
     data.name = company.name;
     data.clients = company.clients.map((client) =>
-      ClientData.fromClient(<ClientData>client),
+      ClientData.fromClient(client),
     );
     return data;
   }

@@ -20,20 +20,25 @@ export class LoggerMiddleware implements NestMiddleware {
 
       const logMeta = {
         method,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         url: originalUrl,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         ip,
         statusCode,
         responseTime: `${responseTime}ms`,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         requestId: req.headers['x-request-id'] || '-',
       };
 
       if (statusCode >= 400) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
         this.logger.warn(
           `HTTP ${method} ${originalUrl} - ${statusCode}`,
           'HTTP',
           logMeta,
         );
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
         this.logger.info(
           `HTTP ${method} ${originalUrl} - ${statusCode}`,
           'HTTP',
@@ -41,15 +46,19 @@ export class LoggerMiddleware implements NestMiddleware {
         );
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return originalSend.apply(res, args);
     };
 
     if (process.env.LOG_REQUESTS === 'detailed') {
       this.logger.debug(`Incoming request`, 'HTTP', {
         method,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         url: originalUrl,
         body,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         query,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         params,
       });
     }

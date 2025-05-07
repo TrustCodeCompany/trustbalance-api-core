@@ -31,7 +31,9 @@ export class CompanyEntity {
   clients!: ClientEntity[];
 
   @OneToMany(
-    () => CompanySubscriptionEntity,companySubscription => companySubscription.company)
+    () => CompanySubscriptionEntity,
+    (companySubscription) => companySubscription.company,
+  )
   subscriptions!: CompanySubscriptionEntity[];
 
   @Column({ default: true })
