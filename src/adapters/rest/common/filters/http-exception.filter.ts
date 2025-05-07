@@ -17,7 +17,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
     response.status(status).json({
       statusCode: status,
       timestamp: new Date().toISOString(),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       error: exceptionResponse['error'] || exception.name,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       message: exceptionResponse['message'],
       details: exceptionResponse, // Incluye todos los datos adicionales
     });

@@ -1,18 +1,16 @@
-import {Expose} from "class-transformer";
-import {ClientData} from "./client.data";
+import { Expose } from 'class-transformer';
+import { ClientData } from './client.data';
 
-export class CompanyData{
+export class CompanyData {
+  @Expose()
+  id?: number;
 
-    @Expose()
-    id?: number;
+  @Expose()
+  name?: string;
 
-    @Expose()
-    name?: string;
+  @Expose()
+  ruc?: string;
 
-    @Expose()
-    ruc?: string;
-
-    @Expose()
-    clients?: ClientData[];
-    
+  @Expose()
+  clients?: ClientData[];
 }

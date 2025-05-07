@@ -20,7 +20,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtAuthGuard } from '../infrastructure/auth/guards/jwt-auth.guard';
 import { JwtStrategy } from '../infrastructure/auth/jwt.strategy';
 import { LoggerModule } from '../infrastructure/logger/logger.module';
-import { WinstonLoggerAdapter } from '../infrastructure/logger/winston-logger.adapter';
 
 @Module({
   imports: [

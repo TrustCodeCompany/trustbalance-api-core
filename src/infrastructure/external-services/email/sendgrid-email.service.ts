@@ -25,6 +25,7 @@ export class SendGridEmailService implements EmailService {
       });
     } catch (error: any) {
       throw new InternalServerErrorException(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         `Failed to send email: ${error.message}`,
       );
     }

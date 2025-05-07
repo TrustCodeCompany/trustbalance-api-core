@@ -14,6 +14,7 @@ export class WinstonLoggerAdapter implements LoggerPort {
     // Formato personalizado
     const myFormat = printf(
       ({ level, message, timestamp, context, ...meta }) => {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions,@typescript-eslint/no-base-to-string
         return `${timestamp} [${level}] [${context || 'Global'}]: ${message} ${
           Object.keys(meta).length ? JSON.stringify(meta) : ''
         }`;

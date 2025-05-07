@@ -33,7 +33,7 @@ export class UserEntity {
   @Expose()
   lastName!: string;
 
-  @Column({ default: null})
+  @Column({ default: null })
   @Expose()
   imageUrl?: string;
 
@@ -49,7 +49,7 @@ export class UserEntity {
     inverseJoinColumn: {
       name: 'role_id',
       referencedColumnName: 'id',
-    }
+    },
   })
   @Expose()
   roles!: RoleEntity[];
@@ -69,5 +69,4 @@ export class UserEntity {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   @Expose()
   updatedAt?: Date;
-
 }
