@@ -1,98 +1,178 @@
+# TrustBalance API Core
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+<p align="center">
+  API backend para la plataforma TrustBalance, construida con NestJS y TypeScript.
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Descripción
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+TrustBalance API Core es una API RESTful que proporciona servicios para la gestión de usuarios, clientes, empresas y suscripciones. La aplicación está construida siguiendo los principios de arquitectura limpia (Clean Architecture) y Domain-Driven Design (DDD).
 
-## Project setup
+## Características principales
+
+- Autenticación y autorización con JWT
+- Gestión de usuarios y roles
+- Gestión de clientes
+- Gestión de empresas y suscripciones
+- Documentación API con Swagger
+- Logging avanzado
+- Soporte para múltiples entornos (desarrollo, producción)
+
+## Arquitectura
+
+El proyecto sigue una arquitectura de capas basada en los principios de Clean Architecture:
+
+- **Dominio**: Contiene las entidades de negocio y reglas de dominio
+- **Aplicación**: Contiene los casos de uso y lógica de aplicación
+- **Infraestructura**: Contiene implementaciones concretas (base de datos, servicios externos, etc.)
+- **Adaptadores**: Contiene controladores y middleware HTTP
+
+## Tecnologías
+
+- **Framework**: NestJS 11
+- **Lenguaje**: TypeScript
+- **Base de datos**: PostgreSQL
+- **ORM**: TypeORM
+- **Autenticación**: JWT, Passport
+- **Validación**: class-validator, class-transformer
+- **Documentación API**: Swagger
+- **Logging**: Winston
+- **Email**: SendGrid
+- **Testing**: Jest
+- **Linting**: ESLint, Prettier
+- **Git Hooks**: Husky, Commitlint
+- **Containerización**: Docker
+
+## Requisitos previos
+
+- Node.js (v18 o superior)
+- npm (v9 o superior)
+- PostgreSQL
+
+## Configuración del proyecto
+
+1. Clonar el repositorio:
+
+```bash
+$ git clone <url-del-repositorio>
+$ cd trustbalance-api-core
+```
+
+2. Instalar dependencias:
 
 ```bash
 $ npm install
 ```
 
-## Compile and run the project
+3. Configurar variables de entorno:
+
+Crea un archivo `.env` en la raíz del proyecto basado en el ejemplo proporcionado:
+
+```
+# Base de datos
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=password
+DB_DATABASE=trustbalance
+
+# JWT
+JWT_SECRET=your-secret-key
+JWT_EXPIRATION=1h
+
+# SendGrid
+SENDGRID_API_KEY=your-sendgrid-api-key
+
+# Servidor
+PORT=3000
+LOG_LEVEL=info
+```
+
+También puedes crear archivos `.env.development` y `.env.production` para configuraciones específicas de entorno.
+
+## Ejecución del proyecto
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
+# Modo desarrollo
 $ npm run start:dev
 
-# production mode
+# Modo debug
+$ npm run start:debug
+
+# Modo producción
 $ npm run start:prod
 ```
 
-## Run tests
+## Documentación API
+
+Una vez que la aplicación esté en ejecución, puedes acceder a la documentación Swagger en:
+
+```
+http://localhost:3000/api/v1/docs
+```
+
+## Pruebas
 
 ```bash
-# unit tests
+# Pruebas unitarias
 $ npm run test
 
-# e2e tests
+# Pruebas e2e
 $ npm run test:e2e
 
-# test coverage
+# Cobertura de pruebas
 $ npm run test:cov
 ```
 
-## Deployment
+## Despliegue con Docker
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+El proyecto incluye un Dockerfile para facilitar el despliegue:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Construir la imagen
+$ docker build -t trustbalance-api-core .
+
+# Ejecutar el contenedor
+$ docker run -p 3000:3000 --env-file .env.production trustbalance-api-core
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Estructura de directorios
 
-## Resources
+```
+src/
+├── adapters/           # Adaptadores para servicios externos
+├── application/        # Casos de uso
+├── auth/               # Módulo de autenticación
+├── client/             # Módulo de clientes
+├── common/             # Código compartido
+├── domain/             # Entidades y reglas de dominio
+├── infrastructure/     # Implementaciones concretas
+│   ├── auth/           # Implementación de autenticación
+│   ├── config/         # Configuraciones
+│   ├── external-services/ # Servicios externos
+│   ├── http/           # Middleware HTTP
+│   ├── logger/         # Implementación de logging
+│   ├── mappers/        # Mappers entre dominio y persistencia
+│   └── persistence/    # Repositorios y entidades
+├── utils/              # Utilidades
+├── app.controller.ts   # Controlador principal
+├── app.module.ts       # Módulo principal
+├── app.service.ts      # Servicio principal
+└── main.ts             # Punto de entrada
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+## Contribución
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+1. Haz un fork del repositorio
+2. Crea una rama para tu feature (`git checkout -b feature/amazing-feature`)
+3. Haz commit de tus cambios (`git commit -m 'feat: add amazing feature'`)
+4. Haz push a la rama (`git push origin feature/amazing-feature`)
+5. Abre un Pull Request
 
-## Support
+## Licencia
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Este proyecto está licenciado bajo [LICENCIA].
