@@ -30,10 +30,7 @@ export class CompanyEntity {
   @Expose()
   clients!: ClientEntity[];
 
-  @OneToMany(
-    () => CompanySubscriptionEntity,
-    (companySubscription) => companySubscription.company,
-  )
+  @OneToMany(() => CompanySubscriptionEntity, (companySubscription) => companySubscription.company)
   subscriptions!: CompanySubscriptionEntity[];
 
   @Column({ default: true })

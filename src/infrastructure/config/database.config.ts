@@ -2,10 +2,7 @@ import { config } from 'dotenv';
 import * as process from 'node:process';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-const envFile =
-  process.env.NODE_ENV === 'production'
-    ? '.env.production'
-    : '.env.development';
+const envFile = process.env.NODE_ENV === 'production' ? '.env.production' : '.env.development';
 config({ path: envFile });
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
@@ -17,9 +14,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   database: process.env.DB_NAME,
   synchronize: true, // solo para dev
   logging: false,
-  entities: [
-    __dirname + '/../../infrastructure/persistence/entities/*.entity{.ts,.js}',
-  ],
+  entities: [__dirname + '/../../infrastructure/persistence/entities/*.entity{.ts,.js}'],
   subscribers: [],
   migrations: [],
   ssl: process.env.NODE_ENV === 'production',

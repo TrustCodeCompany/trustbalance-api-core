@@ -12,14 +12,12 @@ export class WinstonLoggerAdapter implements LoggerPort {
     const { combine, timestamp, printf, colorize } = winston.format;
 
     // Formato personalizado
-    const myFormat = printf(
-      ({ level, message, timestamp, context, ...meta }) => {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions,@typescript-eslint/no-base-to-string
-        return `${timestamp} [${level}] [${context || 'Global'}]: ${message} ${
-          Object.keys(meta).length ? JSON.stringify(meta) : ''
-        }`;
-      },
-    );
+    const myFormat = printf(({ level, message, timestamp, context, ...meta }) => {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions,@typescript-eslint/no-base-to-string
+      return `${timestamp} [${level}] [${context || 'Global'}]: ${message} ${
+        Object.keys(meta).length ? JSON.stringify(meta) : ''
+      }`;
+    });
 
     const transport: DailyRotateFile = new DailyRotateFile({
       filename: 'logs/combined-%DATE%.log',
@@ -63,12 +61,7 @@ export class WinstonLoggerAdapter implements LoggerPort {
     this.logger.warn(message, { context, ...meta });
   }
 
-  error(
-    message: string,
-    context?: string,
-    error?: Error,
-    meta?: Record<string, any>,
-  ): void {
+  error(message: string, context?: string, error?: Error, meta?: Record<string, any>): void {
     this.logger.error(message, {
       context,
       errorMessage: error?.message,

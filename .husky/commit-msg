@@ -1,0 +1,22 @@
+
+#!/bin/sh
+# . "$(dirname "$0")/_/husky.sh"
+
+echo "Validando mensaje de commit..."
+npx --no -- commitlint --edit "$1" || {
+  echo "❌ Error: El mensaje de commit no cumple con el formato esperado."
+  echo "Por favor, usa el formato: <type>(<scope>): <subject>"
+  echo "Ejemplo: feat(BRANCH): agregar nueva funcionalidad"
+  echo "Detalles del error:"
+
+  # Traduce los mensajes de commitlint al español
+    npx --no -- commitlint --edit "$1" | sed \
+      -e 's/subject may not be empty/El sujeto no puede estar vacío/g' \
+      -e 's/type may not be empty/El tipo no puede estar vacío/g' \
+      -e 's/found \([0-9]*\) problems, \([0-9]*\) warnings/Encontrados \1 problemas, \2 advertencias/g' \
+      -e 's/Get help/Ayuda/g' \
+      -e 's/input: \(.*\)/Entrada: \1/g'
+
+  exit 1
+}
+echo "✅ Mensaje de commit validado con éxito."

@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
 import { RoleEntity } from './role.entity';
 import { CompanyEntity } from './company.entity';
