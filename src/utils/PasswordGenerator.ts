@@ -1,8 +1,5 @@
 export class PasswordGenerator {
-  static generatePassword(
-    length: number,
-    options: { [key: string]: boolean },
-  ): string {
+  static generatePassword(length: number, options: { [key: string]: boolean }): string {
     const optionsChars: { [key: string]: string } = {
       digits: '1234567890',
       lowercase: 'abcdefghijklmnopqrstuvwxyz',
@@ -31,9 +28,7 @@ export class PasswordGenerator {
       length = length - chars.length;
       for (let i = 0; i < length; i++) {
         const index: number = Math.floor(Math.random() * chars.length);
-        password += chars[index].charAt(
-          Math.floor(Math.random() * chars[index].length),
-        );
+        password += chars[index].charAt(Math.floor(Math.random() * chars[index].length));
       }
     }
 

@@ -1,11 +1,5 @@
 import { Exclude, Expose } from 'class-transformer';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CompanyEntity } from './company.entity';
 
 @Entity('clients')

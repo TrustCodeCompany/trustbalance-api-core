@@ -36,12 +36,8 @@ export class UserRepository implements UserRepositoryPort {
         await queryRunner.manager.save(companyEntityToSave);
 
       userEntity.company = companyEntitySaved;
-      const userEntityToSave: UserEntity = queryRunner.manager.create(
-        UserEntity,
-        userEntity,
-      );
-      const userEntitySaved: UserEntity =
-        await queryRunner.manager.save(userEntityToSave);
+      const userEntityToSave: UserEntity = queryRunner.manager.create(UserEntity, userEntity);
+      const userEntitySaved: UserEntity = await queryRunner.manager.save(userEntityToSave);
 
       const rolesIds: number[] = user.roles.map((role) => parseInt(role.id));
 
@@ -53,11 +49,8 @@ export class UserRepository implements UserRepositoryPort {
           .where('usuario.id = :userId', { userId: userEntitySaved.id })
           .getOne();
 
-        const existingRoleIds =
-          existingRelations?.roles.map((rol) => rol.id) || [];
-        const newRoleIds = rolesIds.filter(
-          (roleId) => !existingRoleIds.includes(roleId),
-        );
+        const existingRoleIds = existingRelations?.roles.map((rol) => rol.id) || [];
+        const newRoleIds = rolesIds.filter((roleId) => !existingRoleIds.includes(roleId));
 
         if (newRoleIds.length > 0) {
           await queryRunner.manager
