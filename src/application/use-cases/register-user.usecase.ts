@@ -1,16 +1,16 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UserService } from '../../auth/auth.service';
-import { CreateUserDto } from '../../auth/dto/create-user.dto';
+import { CreateUserRequestDto } from '../../auth/dto/request/create-user-request.dto';
 import { User } from '../../domain/entities/user.entity';
 import { UserAlreadyExistsException } from '../exceptions/user-already-exists.exception';
 import { PasswordGenerator } from '../../utils/PasswordGenerator';
 import { BcryptUtils } from '../../utils/BcryptUtils';
 import { Company } from '../../domain/entities/company.entity';
 import { Role } from '../../domain/entities/role.entity';
-import { OperationResult } from '../../domain/entities/OperationResult';
 import { EmailService } from '../../domain/services/email.service.interface';
 import { EmailData } from '../../domain/entities/email.entity';
 import { LoggerPort } from '../../domain/services/logger.service.interface';
+import { CreateUserResponsetDto } from 'src/auth/dto/response/create-user-response.dto';
 
 @Injectable()
 export class RegisterUserUseCase {
@@ -20,7 +20,7 @@ export class RegisterUserUseCase {
     @Inject('LoggerPort') private readonly logger: LoggerPort,
   ) {}
 
-  async execute(userData: CreateUserDto): Promise<OperationResult> {
+  async execute(userData: CreateUserRequestDto): Promise<CreateUserResponsetDto> {
     if ((await this.userService.findByEmail(userData.email)) !== null) {
       throw new UserAlreadyExistsException(userData.email);
     }
@@ -63,6 +63,6 @@ export class RegisterUserUseCase {
       await this.emailService.sendEmail(emailToSend);
     });
 
-    return OperationResult.success('usuario creado');
+    return new CreateUserResponsetDto();
   }
 }

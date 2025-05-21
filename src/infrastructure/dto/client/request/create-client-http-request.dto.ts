@@ -8,7 +8,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateClientRequestDto {
+export class CreateClientHttpRequestDto {
   @ApiProperty({ example: 'TrustBalance' })
   @IsNotEmpty()
   @IsString()

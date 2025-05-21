@@ -4,8 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { UserService } from '../../auth/auth.service';
-import { plainToClass } from 'class-transformer';
-import { GetUserProfileResponseDTO } from '../dtos/response/get-user-profile-response.dto';
+import { GetUserProfileResponseDTO } from '../../auth/dto/response/get-user-profile-response.dto';
 
 @Injectable()
 export class GetUserProfileUseCase {
@@ -38,8 +37,7 @@ export class GetUserProfileUseCase {
           .name || null,
     };
 
-    return plainToClass(GetUserProfileResponseDTO, transformedUser, {
-      excludeExtraneousValues: true,
-    });
+    return new GetUserProfileResponseDTO(transformedUser);
+
   }
 }

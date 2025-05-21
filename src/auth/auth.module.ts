@@ -4,7 +4,6 @@ import { AuthController } from './auth.controller';
 import { UserRepository } from '../infrastructure/persistence/user.repository';
 import { UserEntity } from '../infrastructure/persistence/entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RegisterUserUseCase } from '../application/use-cases/register-user.usecase';
 import { RoleEntity } from '../infrastructure/persistence/entities/role.entity';
 import { GetUserProfileUseCase } from '../application/use-cases/get-user-profile.usecase';
 import { LoginUserUseCase } from '../application/use-cases/login-user.usecase';
@@ -20,6 +19,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtAuthGuard } from '../infrastructure/auth/guards/jwt-auth.guard';
 import { JwtStrategy } from '../infrastructure/auth/jwt.strategy';
 import { LoggerModule } from '../infrastructure/logger/logger.module';
+import { LoginUserMapper } from 'src/infrastructure/mappers/login-user.mapper';
+import { CreateUserMapper } from 'src/infrastructure/mappers/create-user.mapper';
+import { RegisterUserUseCase } from 'src/application/use-cases/register-user.usecase';
+import { GetUserProfileMapper } from 'src/infrastructure/mappers/get-user-profile.mapper';
 
 @Module({
   imports: [
@@ -44,7 +47,10 @@ import { LoggerModule } from '../infrastructure/logger/logger.module';
     RegisterUserUseCase,
     GetUserProfileUseCase,
     LoginUserUseCase,
-    UserEntityMapper,
+    UserEntityMapper, // persistence <-> domain
+    LoginUserMapper, // aplicattion <-> infraestructure(http)
+    CreateUserMapper, // aplicattion <-> infraestructure(http)
+    GetUserProfileMapper, // aplicattion <-> infraestructure(http)
     JwtStrategy, // Asegúrate de incluir la estrategia
     JwtAuthGuard, // Incluye el guard si lo vas a usar globalmente
     {
@@ -59,10 +65,6 @@ import { LoggerModule } from '../infrastructure/logger/logger.module';
       provide: 'JwtService',
       useClass: JwtServiceImpl,
     },
-    /*{
-      provide: 'winLoggerPort',
-      useClass: WinstonLoggerAdapter,
-    },*/
   ],
 })
 export class AuthModule {}
