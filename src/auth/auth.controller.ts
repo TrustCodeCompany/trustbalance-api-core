@@ -1,13 +1,28 @@
-import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { GetUserProfileUseCase } from '../application/use-cases/get-user-profile.usecase';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { LoginUserDto } from './dto/login.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { LoginUserUseCase } from '../application/use-cases/login-user.usecase';
-import { CreateUserDto } from './dto/create-user.dto';
-import { RegisterUserUseCase } from '../application/use-cases/register-user.usecase';
 import { JwtAuthGuard } from '../infrastructure/auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../infrastructure/auth/guards/roles-guard';
 import { Roles } from '../infrastructure/auth/decorators/role-decorator';
+import { LoginUserHttpRequestDto } from 'src/infrastructure/dto/auth/request/login-user-http-request.dto';
+import { LoginUserHttpResponsetDto } from 'src/infrastructure/dto/auth/response/login-user-http-response.dto';
+import { CreateUserHttpResponsetDto } from 'src/infrastructure/dto/auth/response/create-user-http-response.dto';
+import { RegisterUserUseCase } from 'src/application/use-cases/register-user.usecase';
+import { CreateUserHttpRequestDto } from 'src/infrastructure/dto/auth/request/create-user-http-request.dto';
+import { CreateUserMapper } from 'src/infrastructure/mappers/create-user.mapper';
+import { LoginUserMapper } from './../infrastructure/mappers/login-user.mapper';
+import { GetUserProfileMapper } from 'src/infrastructure/mappers/get-user-profile.mapper';
+import { GetUserProfileHttpResponseDTO } from 'src/infrastructure/dto/auth/response/get-user-profile-http-response.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -16,35 +31,42 @@ export class AuthController {
     private readonly getUserProfileUseCase: GetUserProfileUseCase,
     private readonly loginUserUseCase: LoginUserUseCase,
     private readonly registerUserUseCase: RegisterUserUseCase,
+    private readonly loginUserMapper: LoginUserMapper,
+    private readonly createUserMapper: CreateUserMapper,
+    private readonly getUserProfileMapper: GetUserProfileMapper,
   ) {}
 
   @Post('sign-in')
-  login(@Body() loginUserDto: LoginUserDto) {
-    return this.loginUserUseCase.execute(loginUserDto);
+  @HttpCode(HttpStatus.OK)
+  async login(
+    @Body() loginUserHttpRequestDto: LoginUserHttpRequestDto,
+  ): Promise<LoginUserHttpResponsetDto> {
+    const result = await this.loginUserUseCase.execute(loginUserHttpRequestDto);
+    return this.loginUserMapper.toHttp(result);
   }
 
   @Post('sign-up')
-  register(@Body() createUserDto: CreateUserDto) {
-    return this.registerUserUseCase.execute(createUserDto);
+  @HttpCode(HttpStatus.CREATED)
+  async register(
+    @Body() createUserHttpRequestDto: CreateUserHttpRequestDto,
+  ): Promise<CreateUserHttpResponsetDto> {
+    const result = await this.registerUserUseCase.execute(
+      createUserHttpRequestDto,
+    );
+    return this.createUserMapper.toHttp(result);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('MODERATOR', 'ADMIN', 'USER')
   @Get('/profile')
   @ApiBearerAuth()
-  @ApiResponse({
-    status: 200,
-    description: 'Perfil del usuario obtenido exitosamente',
-  })
-  @ApiResponse({
-    status: 403,
-    description: 'No tienes permisos para acceder a este recurso',
-  })
-  getProfile(@Request() req: any) {
+  async getProfile(
+    @Request() req: any,
+  ): Promise<GetUserProfileHttpResponseDTO> {
     const roles = ['MODERATOR', 'ADMIN', 'USER'];
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     const email: string = req.user.email;
-    return this.getUserProfileUseCase.execute(email, roles);
+    const result = await this.getUserProfileUseCase.execute(email, roles);
+    return this.getUserProfileMapper.toHttp(result);
   }
 
   /*@Get()

@@ -2,7 +2,7 @@ import { Expose } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateUserDto {
+export class CreateUserHttpRequestDto {
   @ApiProperty({
     example: 'ricardo',
     type: String,

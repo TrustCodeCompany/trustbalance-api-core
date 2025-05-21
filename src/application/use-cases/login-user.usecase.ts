@@ -1,9 +1,8 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../../auth/auth.service';
 import { compare } from 'bcrypt';
-import { LoginUserDto } from '../../auth/dto/login.dto';
-import { plainToClass } from 'class-transformer';
-import { AuthResponseDto } from '../dtos/response/auth-response.dto';
+import { LoginUserRequestDto } from '../../auth/dto/request/login-user-request.dto';
+import { LoginUserResponsetDto } from '../../auth/dto/response/login-user-response.dto';
 import { JwtService } from '../../domain/services/jwt.service.interface';
 import { LoggerPort } from '../../domain/services/logger.service.interface';
 
@@ -15,19 +14,24 @@ export class LoginUserUseCase {
     @Inject('LoggerPort') private readonly logger: LoggerPort,
   ) {}
 
-  async execute(loginUserDto: LoginUserDto): Promise<AuthResponseDto> {
+  async execute(
+    loginUserRequestDto: LoginUserRequestDto,
+  ): Promise<LoginUserResponsetDto> {
     this.logger.debug(`Successfully log in`, 'LoginUserUseCase', {
-      email: loginUserDto.email,
+      email: loginUserRequestDto.email,
       mask: ['email'],
       maskOptions: { email: { showStart: 8, showEnd: 0 } },
     });
 
-    const user = await this.userService.findByEmail(loginUserDto.email);
+    const user = await this.userService.findByEmail(loginUserRequestDto.email);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const isValidPassword = await compare(loginUserDto.password, user.password);
+    const isValidPassword = await compare(
+      loginUserRequestDto.password,
+      user.password,
+    );
     if (!isValidPassword) {
       throw new UnauthorizedException('Invalid credentials');
     }
@@ -38,15 +42,7 @@ export class LoginUserUseCase {
     };
 
     const token: string = await this.jwtService.generateToken(payload);
-    //Logger.debug('User signed with token');
 
-    return plainToClass(AuthResponseDto, {
-      traceId: crypto.randomUUID(),
-      results: {
-        status: 'OK',
-        message: 'Succesful operation.',
-        token: token,
-      },
-    });
+    return new LoginUserResponsetDto(token);
   }
 }

@@ -3,7 +3,8 @@ import { AppModule } from './app.module';
 import { config } from 'dotenv';
 import { resolve } from 'path';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { HttpExceptionFilter } from './adapters/rest/common/filters/http-exception.filter';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 
 async function bootstrap() {
   const environment = process.env.NODE_ENV || 'development';
@@ -37,7 +38,10 @@ async function bootstrap() {
   SwaggerModule.setup('api/v1/docs', app, documentFactory);
 
   app.setGlobalPrefix('api/v1');
+  // Filtro Http 
   app.useGlobalFilters(new HttpExceptionFilter());
+   // Interceptor De Respuesta 
+   app.useGlobalInterceptors(new ResponseInterceptor());
   await app.listen(process.env.PORT ?? 3000);
   console.log(
     `Application is running on: ${await app.getUrl()} in ${environment} mode, nivel de log ${process.env.LOG_LEVEL}`,

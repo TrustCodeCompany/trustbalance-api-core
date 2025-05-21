@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ClientService } from './client.service';
 import { ClientController } from './client.controller';
-
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientEntity } from '../infrastructure/persistence/entities/client.entity';
 import { CreateClientUseCase } from '../application/use-cases/create-client.usecase';
 import { ClientEntityMapper } from '../infrastructure/mappers/client-entity.mapper';
 import { ClientRepository } from '../infrastructure/persistence/client.repository';
+import { CreateClientMapper } from 'src/infrastructure/mappers/create-client.mapper';
 
 @Module({
   imports: [
@@ -18,7 +18,8 @@ import { ClientRepository } from '../infrastructure/persistence/client.repositor
   providers: [
     ClientService,
     CreateClientUseCase,
-    ClientEntityMapper,
+    ClientEntityMapper, // persistence <-> domain
+    CreateClientMapper, // aplicattion <-> infraestructure(http)
     {
       provide: 'ClientRepository',
       useClass: ClientRepository,
