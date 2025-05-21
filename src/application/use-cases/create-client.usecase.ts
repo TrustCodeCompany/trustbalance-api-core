@@ -10,9 +10,7 @@ import { CreateClientResponsetDto } from '../../client/dto/response/create-clien
 export class CreateClientUseCase {
   constructor(private clientService: ClientService) {}
 
-  async execute(
-    clientData: CreateClientRequestDto,
-  ): Promise<CreateClientResponsetDto> {
+  async execute(clientData: CreateClientRequestDto): Promise<CreateClientResponsetDto> {
     if (await this.clientService.clientExistByRuc(clientData.ruc)) {
       throw new RucAlreadyExistsException(clientData.ruc);
     }

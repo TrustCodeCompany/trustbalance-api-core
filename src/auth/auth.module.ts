@@ -19,10 +19,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtAuthGuard } from '../infrastructure/auth/guards/jwt-auth.guard';
 import { JwtStrategy } from '../infrastructure/auth/jwt.strategy';
 import { LoggerModule } from '../infrastructure/logger/logger.module';
-import { LoginUserMapper } from 'src/infrastructure/mappers/login-user.mapper';
-import { CreateUserMapper } from 'src/infrastructure/mappers/create-user.mapper';
-import { RegisterUserUseCase } from 'src/application/use-cases/register-user.usecase';
-import { GetUserProfileMapper } from 'src/infrastructure/mappers/get-user-profile.mapper';
+import { RegisterUserUseCase } from '../application/use-cases/register-user.usecase';
+import { LoginUserMapper } from '../infrastructure/mappers/login-user.mapper';
+import { CreateUserMapper } from '../infrastructure/mappers/create-user.mapper';
+import { GetUserProfileMapper } from '../infrastructure/mappers/get-user-profile.mapper';
 
 @Module({
   imports: [
