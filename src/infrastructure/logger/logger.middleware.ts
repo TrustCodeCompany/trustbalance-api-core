@@ -32,18 +32,10 @@ export class LoggerMiddleware implements NestMiddleware {
 
       if (statusCode >= 400) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-        this.logger.warn(
-          `HTTP ${method} ${originalUrl} - ${statusCode}`,
-          'HTTP',
-          logMeta,
-        );
+        this.logger.warn(`HTTP ${method} ${originalUrl} - ${statusCode}`, 'HTTP', logMeta);
       } else {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-        this.logger.info(
-          `HTTP ${method} ${originalUrl} - ${statusCode}`,
-          'HTTP',
-          logMeta,
-        );
+        this.logger.info(`HTTP ${method} ${originalUrl} - ${statusCode}`, 'HTTP', logMeta);
       }
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return

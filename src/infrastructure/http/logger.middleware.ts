@@ -20,8 +20,7 @@ export class LoggerMiddleware implements NestMiddleware {
 
     // Usar un logger de respaldo si el inyectado es null
     const safeLogger = this.logger || this.fallbackLogger;
-    const ip =
-      req.ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    const ip = req.ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
     res.on('finish', () => {
       const responseTime = Date.now() - startTime;
@@ -35,14 +34,12 @@ export class LoggerMiddleware implements NestMiddleware {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          safeLogger.warn?.(message, 'HTTP') ||
-            this.fallbackLogger.warn(message);
+          safeLogger.warn?.(message, 'HTTP') || this.fallbackLogger.warn(message);
         } else {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          safeLogger.info?.(message, 'HTTP') ||
-            this.fallbackLogger.log(message);
+          safeLogger.info?.(message, 'HTTP') || this.fallbackLogger.log(message);
         }
       } catch (error) {
         // En caso de cualquier error, usar el logger interno de NestJS

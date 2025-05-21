@@ -34,8 +34,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth()
     .build();
-  const documentFactory = () =>
-    SwaggerModule.createDocument(app, configSwagger);
+  const documentFactory = () => SwaggerModule.createDocument(app, configSwagger);
   SwaggerModule.setup('api/v1/docs', app, documentFactory);
 
   app.setGlobalPrefix('api/v1');

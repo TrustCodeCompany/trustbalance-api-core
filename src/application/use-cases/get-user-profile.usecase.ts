@@ -1,8 +1,4 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { UserService } from '../../auth/auth.service';
 import { GetUserProfileResponseDTO } from '../../auth/dto/response/get-user-profile-response.dto';
 
@@ -10,10 +6,7 @@ import { GetUserProfileResponseDTO } from '../../auth/dto/response/get-user-prof
 export class GetUserProfileUseCase {
   constructor(private userService: UserService) {}
 
-  async execute(
-    email: string,
-    roles: string[],
-  ): Promise<GetUserProfileResponseDTO> {
+  async execute(email: string, roles: string[]): Promise<GetUserProfileResponseDTO> {
     const user = await this.userService.findByEmail(email);
     if (!user) {
       throw new NotFoundException('usuario no encontrado');
@@ -23,9 +16,7 @@ export class GetUserProfileUseCase {
     const userRoles = user.roles.map((role) => role.name);
     const hasValidRole = roles.some((role) => userRoles.includes(role));
     if (!hasValidRole) {
-      throw new ForbiddenException(
-        'No tienes permisos para acceder a este recurso',
-      );
+      throw new ForbiddenException('No tienes permisos para acceder a este recurso');
     }
 
     // Transformar los roles y Verificar el campo subscriptionName así como tambien su estado (Activo/Inactivo)
@@ -33,8 +24,7 @@ export class GetUserProfileUseCase {
       ...user,
       roles: user.roles.map((role) => ({ name: role.name })),
       subscriptionName:
-        user.company?.subscriptions?.find((sub) => sub.isActive)?.subscription
-          .name || null,
+        user.company?.subscriptions?.find((sub) => sub.isActive)?.subscription.name || null,
     };
 
     return new GetUserProfileResponseDTO(transformedUser);

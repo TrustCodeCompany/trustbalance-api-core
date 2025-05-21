@@ -1,0 +1,41 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🔍 Ejecutando validaciones pre-commit..."
+
+# Validación de ESLint
+echo "Validando código con ESLint..."
+npm run lint || {
+  echo "❌ Error: Fallo en la validación de ESLint. Corrige los problemas encontrados."
+  echo "Ejecuta 'npm run lint' para ver los detalles y corregirlos."
+  exit 1
+}
+echo "✅ ESLint validado con éxito."
+
+# Validación de Prettier
+echo "Validando formato con Prettier..."
+npm run prettier -- --check || {
+  echo "❌ Error: Fallo en la validación de Prettier. El código no cumple con el formato."
+  echo "Ejecuta 'npm run prettier -- --write' para aplicar los cambios automáticos."
+  exit 1
+}
+echo "✅ Prettier validado con éxito."
+
+# Validación de pruebas Jest
+echo "Ejecutando pruebas con Jest..."
+npm run test || {
+  echo "❌ Error: Las pruebas fallaron. Corrige los fallos antes de continuar."
+  echo "Ejecuta 'npm run test' para ver los detalles."
+  exit 1
+}
+echo "✅ Pruebas ejecutadas con éxito."
+
+echo "Validando cobertura con Jest..."
+npm run test:cov || {
+  echo "❌ Error: La cobertura no cumple con los requisitos mínimos."
+  echo "Ejecuta 'npm run test:cov' para ver los detalles."
+  exit 1
+}
+echo "✅ Cobertura validada con éxito."
+
+echo "✅ Todas las validaciones pre-commit pasaron. Ahora se validará el mensaje de commit..."

@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientModule } from './client/client.module';
 import { LoggerModule } from './infrastructure/logger/logger.module';
 import { LoggerMiddleware } from './infrastructure/http/logger.middleware';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { LoggerMiddleware } from './infrastructure/http/logger.middleware';
     AuthModule,
     ClientModule,
   ],
-  //controllers: [AppController],
+  controllers: [AppController],
   providers: [AppService],
   exports: [AppService],
 })
