@@ -14,9 +14,7 @@ export class LoginUserUseCase {
     @Inject('LoggerPort') private readonly logger: LoggerPort,
   ) {}
 
-  async execute(
-    loginUserRequestDto: LoginUserRequestDto,
-  ): Promise<LoginUserResponsetDto> {
+  async execute(loginUserRequestDto: LoginUserRequestDto): Promise<LoginUserResponsetDto> {
     this.logger.debug(`Successfully log in`, 'LoginUserUseCase', {
       email: loginUserRequestDto.email,
       mask: ['email'],
@@ -28,10 +26,7 @@ export class LoginUserUseCase {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const isValidPassword = await compare(
-      loginUserRequestDto.password,
-      user.password,
-    );
+    const isValidPassword = await compare(loginUserRequestDto.password, user.password);
     if (!isValidPassword) {
       throw new UnauthorizedException('Invalid credentials');
     }

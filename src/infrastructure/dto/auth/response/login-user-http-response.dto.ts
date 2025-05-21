@@ -18,5 +18,4 @@ export class LoginUserHttpResponsetDto {
   @ApiProperty({ example: 'Bearer Dfggfg4524234%&&dfdf#$dfdfdf%QBVC' })
   @Expose()
   readonly token!: string;
-
 }

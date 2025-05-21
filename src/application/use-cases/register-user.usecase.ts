@@ -10,7 +10,7 @@ import { Role } from '../../domain/entities/role.entity';
 import { EmailService } from '../../domain/services/email.service.interface';
 import { EmailData } from '../../domain/entities/email.entity';
 import { LoggerPort } from '../../domain/services/logger.service.interface';
-import { CreateUserResponsetDto } from 'src/auth/dto/response/create-user-response.dto';
+import { CreateUserResponsetDto } from '../../auth/dto/response/create-user-response.dto';
 
 @Injectable()
 export class RegisterUserUseCase {

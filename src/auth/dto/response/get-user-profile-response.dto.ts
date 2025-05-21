@@ -8,15 +8,22 @@ export class GetUserProfileResponseDTO {
   readonly subscriptionName!: string;
 
   constructor(transformedUser: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     this.name = transformedUser.name;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     this.lastName = transformedUser.lastName;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     this.imageUrl = transformedUser.imageUrl;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     this.email = transformedUser.email;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     this.roles = transformedUser.roles.map((role: any) => ({ name: role.name }));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     this.isActive = transformedUser.isActive;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.subscriptionName =
-      transformedUser.company?.subscriptions?.find(
-        (sub: any) => sub.isActive,
-      )?.subscription.name || null;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return
+      transformedUser.company?.subscriptions?.find((sub: any) => sub.isActive)?.subscription.name ||
+      null;
   }
 }

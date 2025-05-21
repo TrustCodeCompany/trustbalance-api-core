@@ -11,10 +11,6 @@ export class LoginUserMapper {
   };
 
   toHttp(useCaseDto: LoginUserResponsetDto): LoginUserHttpResponsetDto {
-    return plainToInstance(
-      LoginUserHttpResponsetDto,
-      useCaseDto,
-      this.transformOptions,
-    );
+    return plainToInstance(LoginUserHttpResponsetDto, useCaseDto, this.transformOptions);
   }
 }

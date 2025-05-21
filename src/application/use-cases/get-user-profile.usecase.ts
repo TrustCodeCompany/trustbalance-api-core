@@ -28,6 +28,5 @@ export class GetUserProfileUseCase {
     };
 
     return new GetUserProfileResponseDTO(transformedUser);
-
   }
 }

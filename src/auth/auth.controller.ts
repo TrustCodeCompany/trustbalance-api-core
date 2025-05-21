@@ -14,15 +14,15 @@ import { LoginUserUseCase } from '../application/use-cases/login-user.usecase';
 import { JwtAuthGuard } from '../infrastructure/auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../infrastructure/auth/guards/roles-guard';
 import { Roles } from '../infrastructure/auth/decorators/role-decorator';
-import { LoginUserHttpRequestDto } from 'src/infrastructure/dto/auth/request/login-user-http-request.dto';
-import { LoginUserHttpResponsetDto } from 'src/infrastructure/dto/auth/response/login-user-http-response.dto';
-import { CreateUserHttpResponsetDto } from 'src/infrastructure/dto/auth/response/create-user-http-response.dto';
-import { RegisterUserUseCase } from 'src/application/use-cases/register-user.usecase';
-import { CreateUserHttpRequestDto } from 'src/infrastructure/dto/auth/request/create-user-http-request.dto';
-import { CreateUserMapper } from 'src/infrastructure/mappers/create-user.mapper';
-import { LoginUserMapper } from './../infrastructure/mappers/login-user.mapper';
-import { GetUserProfileMapper } from 'src/infrastructure/mappers/get-user-profile.mapper';
-import { GetUserProfileHttpResponseDTO } from 'src/infrastructure/dto/auth/response/get-user-profile-http-response.dto';
+import { LoginUserMapper } from '../infrastructure/mappers/login-user.mapper';
+import { RegisterUserUseCase } from '../application/use-cases/register-user.usecase';
+import { CreateUserMapper } from '../infrastructure/mappers/create-user.mapper';
+import { LoginUserHttpRequestDto } from '../infrastructure/dto/auth/request/login-user-http-request.dto';
+import { LoginUserHttpResponsetDto } from '../infrastructure/dto/auth/response/login-user-http-response.dto';
+import { CreateUserHttpRequestDto } from '../infrastructure/dto/auth/request/create-user-http-request.dto';
+import { CreateUserHttpResponsetDto } from '../infrastructure/dto/auth/response/create-user-http-response.dto';
+import { GetUserProfileMapper } from '../infrastructure/mappers/get-user-profile.mapper';
+import { GetUserProfileHttpResponseDTO } from '../infrastructure/dto/auth/response/get-user-profile-http-response.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -50,9 +50,7 @@ export class AuthController {
   async register(
     @Body() createUserHttpRequestDto: CreateUserHttpRequestDto,
   ): Promise<CreateUserHttpResponsetDto> {
-    const result = await this.registerUserUseCase.execute(
-      createUserHttpRequestDto,
-    );
+    const result = await this.registerUserUseCase.execute(createUserHttpRequestDto);
     return this.createUserMapper.toHttp(result);
   }
 
@@ -60,10 +58,9 @@ export class AuthController {
   @Roles('MODERATOR', 'ADMIN', 'USER')
   @Get('/profile')
   @ApiBearerAuth()
-  async getProfile(
-    @Request() req: any,
-  ): Promise<GetUserProfileHttpResponseDTO> {
+  async getProfile(@Request() req: any): Promise<GetUserProfileHttpResponseDTO> {
     const roles = ['MODERATOR', 'ADMIN', 'USER'];
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     const email: string = req.user.email;
     const result = await this.getUserProfileUseCase.execute(email, roles);
     return this.getUserProfileMapper.toHttp(result);

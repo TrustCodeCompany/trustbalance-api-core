@@ -46,6 +46,7 @@ describe('ClientRepository', () => {
     { ...mockClient, id: 2, name: 'Client 2' },
   ] as unknown as Client[];
 
+  // configuración antes de cada prueba
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -84,10 +85,12 @@ describe('ClientRepository', () => {
     jest.clearAllMocks();
   });
 
+  // pruebas individuales
   it('should be defined', () => {
     expect(repository).toBeDefined();
   });
 
+  // agrupaciones por métodos
   describe('create', () => {
     it('should save a client entity and return the mapped domain client', async () => {
       jest.spyOn(mapper, 'toEntity').mockReturnValue(mockClientEntity);

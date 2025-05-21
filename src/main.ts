@@ -38,10 +38,10 @@ async function bootstrap() {
   SwaggerModule.setup('api/v1/docs', app, documentFactory);
 
   app.setGlobalPrefix('api/v1');
-  // Filtro Http 
+  // Filtro Http
   app.useGlobalFilters(new HttpExceptionFilter());
-   // Interceptor De Respuesta 
-   app.useGlobalInterceptors(new ResponseInterceptor());
+  // Interceptor De Respuesta
+  app.useGlobalInterceptors(new ResponseInterceptor());
   await app.listen(process.env.PORT ?? 3000);
   console.log(
     `Application is running on: ${await app.getUrl()} in ${environment} mode, nivel de log ${process.env.LOG_LEVEL}`,

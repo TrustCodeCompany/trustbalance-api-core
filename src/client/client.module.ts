@@ -6,7 +6,7 @@ import { ClientEntity } from '../infrastructure/persistence/entities/client.enti
 import { CreateClientUseCase } from '../application/use-cases/create-client.usecase';
 import { ClientEntityMapper } from '../infrastructure/mappers/client-entity.mapper';
 import { ClientRepository } from '../infrastructure/persistence/client.repository';
-import { CreateClientMapper } from 'src/infrastructure/mappers/create-client.mapper';
+import { CreateClientMapper } from '../infrastructure/mappers/create-client.mapper';
 
 @Module({
   imports: [

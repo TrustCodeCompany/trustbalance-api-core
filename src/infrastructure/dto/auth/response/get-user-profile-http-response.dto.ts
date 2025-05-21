@@ -21,12 +21,9 @@ export class GetUserProfileHttpResponseDTO {
 
   @ApiProperty({
     description: 'Listado de roles del usuario',
-    isArray: true,                             
-    type: Object,                              
-    example: [
-      { name: 'MODERATOR' },
-      { name: 'USER' }
-    ]                                          
+    isArray: true,
+    type: Object,
+    example: [{ name: 'MODERATOR' }, { name: 'USER' }],
   })
   @Expose()
   roles!: { name: string }[];

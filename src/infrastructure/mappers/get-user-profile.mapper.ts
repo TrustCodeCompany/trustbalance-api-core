@@ -1,11 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import {
-  ClassTransformOptions,
-  instanceToPlain,
-  plainToInstance,
-} from 'class-transformer';
-import { GetUserProfileResponseDTO } from 'src/auth/dto/response/get-user-profile-response.dto';
+import { ClassTransformOptions, instanceToPlain, plainToInstance } from 'class-transformer';
 import { GetUserProfileHttpResponseDTO } from '../dto/auth/response/get-user-profile-http-response.dto';
+import { GetUserProfileResponseDTO } from '../../auth/dto/response/get-user-profile-response.dto';
 
 @Injectable()
 export class GetUserProfileMapper {
@@ -16,11 +12,7 @@ export class GetUserProfileMapper {
 
   toHttp(useCaseDto: GetUserProfileResponseDTO): GetUserProfileHttpResponseDTO {
     const plain = instanceToPlain(useCaseDto);
-    const httpDto = plainToInstance(
-      GetUserProfileHttpResponseDTO,
-      plain,
-      this.transformOptions,
-    );
+    const httpDto = plainToInstance(GetUserProfileHttpResponseDTO, plain, this.transformOptions);
     httpDto.roles = useCaseDto.roles.map((r) => ({ name: r.name }));
     return httpDto;
   }
