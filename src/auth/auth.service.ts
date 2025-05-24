@@ -14,7 +14,11 @@ export class UserService {
     await this.userRepository.create(user);
   }
 
-  async findByEmail(email: string) {
+  async findByEmail(email: string): Promise<User | null> {
     return this.userRepository.findByEmail(email);
+  }
+
+  async updatePassword(email: string, password: string): Promise<number | undefined> {
+    return this.userRepository.updatePasswordByEmail(email, password);
   }
 }
