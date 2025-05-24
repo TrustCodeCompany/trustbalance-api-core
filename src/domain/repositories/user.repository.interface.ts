@@ -5,4 +5,5 @@ export interface UserRepositoryPort {
   //findById(id: number): Promise<User | null>;
   findByEmail(email: string): Promise<User | null>;
   //delete(email: string): Promise<void>;
+  updatePasswordByEmail(email: string, password: string): Promise<number | undefined>;
 }

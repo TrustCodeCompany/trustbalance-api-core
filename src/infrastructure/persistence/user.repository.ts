@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { UserRepositoryPort } from '../../domain/repositories/user.repository.interface';
-import { DataSource, QueryRunner, Repository } from 'typeorm';
+import { DataSource, QueryRunner, Repository, UpdateResult } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
 import { User } from '../../domain/entities/user.entity';
 import { UserEntityMapper } from '../mappers/user-entity.mapper';
@@ -19,6 +19,14 @@ export class UserRepository implements UserRepositoryPort {
     private mapper: UserEntityMapper,
   ) {
     this.datasource = dataSourceInject;
+  }
+
+  async updatePasswordByEmail(email: string, password: string): Promise<number | undefined> {
+    const updated: UpdateResult = await this.repository.update(
+      { email: email },
+      { password: password },
+    );
+    return updated.affected;
   }
 
   async create(user: User): Promise<User> {

@@ -23,6 +23,8 @@ import { RegisterUserUseCase } from '../application/use-cases/register-user.usec
 import { LoginUserMapper } from '../infrastructure/mappers/login-user.mapper';
 import { CreateUserMapper } from '../infrastructure/mappers/create-user.mapper';
 import { GetUserProfileMapper } from '../infrastructure/mappers/get-user-profile.mapper';
+import { ChangePasswordMapper } from '../infrastructure/mappers/change-password.mapper';
+import { ChangePasswordUseCase } from '../application/use-cases/change-password.usecase';
 
 @Module({
   imports: [
@@ -53,6 +55,8 @@ import { GetUserProfileMapper } from '../infrastructure/mappers/get-user-profile
     GetUserProfileMapper, // aplicattion <-> infraestructure(http)
     JwtStrategy, // Asegúrate de incluir la estrategia
     JwtAuthGuard, // Incluye el guard si lo vas a usar globalmente
+    ChangePasswordMapper,
+    ChangePasswordUseCase,
     {
       provide: 'UserRepository',
       useClass: UserRepository,

@@ -7,9 +7,38 @@ POST http://localhost:3000/api/v1/auth/sign-in
 Content-Type: application/json
 
 {
-  "email": "ricardo@gmail.com",
-  "password": ""
+  "email": "rbalbis2001@gmail.com",
+  "password": "3hH%a%"
 }
 
-###
-GET http://localhost:3000/api/v1/
+> {%
+  // Este es el script de respuesta en WebStorm/JetBrains IDEs
+  // "response" es el objeto de respuesta
+  // "client" es un objeto global que proporciona utilidades
+
+  // Parsear el cuerpo de la respuesta si es JSON
+  const jsonResponse = response.body.data;
+
+  // Asumiendo que el token está en response.body.access_token
+  if (jsonResponse && jsonResponse.token) {
+    // Guarda el token en una variable de entorno "global" para este proyecto
+    // Estas variables se pueden definir en un archivo http-client.env.json
+    // o se pueden usar como variables de "test" para la sesión actual.
+    client.test("authToken", jsonResponse.token);
+    console.log("Token guardado:", jsonResponse.token); // Para depurar
+  } else {
+    // console.log("No se encontró access_token en la respuesta.");
+  }
+%}
+
+### Actualizar contraseña
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJiYWxiaXMyMDAxQGdtYWlsLmNvbSIsInJvbGVzIjpbeyJuYW1lIjoiVVNFUiJ9XSwiaWF0IjoxNzQ4MDY4OTI3LCJleHAiOjE3NDgwNzI1Mjd9.Y3viDEDazEdqPNIBg0Q0iNcPSoXsqWGZEnDSmLsBPVc
+
+PUT http://localhost:3000/api/v1/auth/change-password
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "newPassword": "3hH%a%",
+  "confirmNewPassword": "3hH%a%"
+}

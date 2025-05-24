@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Put,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -23,6 +24,11 @@ import { CreateUserHttpRequestDto } from '../infrastructure/dto/auth/request/cre
 import { CreateUserHttpResponsetDto } from '../infrastructure/dto/auth/response/create-user-http-response.dto';
 import { GetUserProfileMapper } from '../infrastructure/mappers/get-user-profile.mapper';
 import { GetUserProfileHttpResponseDTO } from '../infrastructure/dto/auth/response/get-user-profile-http-response.dto';
+import { ChangePasswordDto } from './dto/request/change-password-request.dto';
+import { ChangePasswordUseCase } from '../application/use-cases/change-password.usecase';
+import { ChangePasswordMapper } from '../infrastructure/mappers/change-password.mapper';
+import { ChangePasswordHttpResponseDto } from '../infrastructure/dto/auth/response/change-password-http-response.dto';
+import { ChangePasswordResponseDto } from './dto/response/change-password-response.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -34,6 +40,8 @@ export class AuthController {
     private readonly loginUserMapper: LoginUserMapper,
     private readonly createUserMapper: CreateUserMapper,
     private readonly getUserProfileMapper: GetUserProfileMapper,
+    private readonly changePasswordUseCase: ChangePasswordUseCase,
+    private readonly changePasswordMapper: ChangePasswordMapper,
   ) {}
 
   @Post('sign-in')
@@ -64,6 +72,23 @@ export class AuthController {
     const email: string = req.user.email;
     const result = await this.getUserProfileUseCase.execute(email, roles);
     return this.getUserProfileMapper.toHttp(result);
+  }
+
+  @Put('change-password')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('MODERATOR', 'ADMIN', 'USER')
+  @ApiBearerAuth()
+  async changePassword(
+    @Request() req: any,
+    @Body() changePasswordDto: ChangePasswordDto,
+  ): Promise<ChangePasswordHttpResponseDto> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+    const email: string = req.user.email;
+    const result: ChangePasswordResponseDto = await this.changePasswordUseCase.execute(
+      changePasswordDto,
+      email,
+    );
+    return this.changePasswordMapper.toHttp(result);
   }
 
   /*@Get()
