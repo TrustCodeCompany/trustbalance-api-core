@@ -5,6 +5,7 @@ import { resolve } from 'path';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { HttpExceptionFilter } from './common/filter/http-exception.filter';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const environment = process.env.NODE_ENV || 'development';
@@ -38,10 +39,23 @@ async function bootstrap() {
   SwaggerModule.setup('api/v1/docs', app, documentFactory);
 
   app.setGlobalPrefix('api/v1');
+
+  // Configurar ValidationPipe globalmente
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,              // Transforma payload a instancias de DTO
+      whitelist: true,              // Elimina propiedades no decoradas
+      forbidNonWhitelisted: true,   // Rechaza requests con props extra
+      forbidUnknownValues: true,    // Rechaza valores que no son objetos
+      validationError: { target: false } // No incluye el objeto original en el error
+    })
+  );
+
   // Filtro Http
   app.useGlobalFilters(new HttpExceptionFilter());
   // Interceptor De Respuesta
   app.useGlobalInterceptors(new ResponseInterceptor());
+
   await app.listen(process.env.PORT ?? 3000);
   console.log(
     `Application is running on: ${await app.getUrl()} in ${environment} mode, nivel de log ${process.env.LOG_LEVEL}`,
