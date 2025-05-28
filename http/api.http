@@ -1,8 +1,4 @@
-### GET request to example server
-## findByEmail
-GET http://localhost:3000/api/v1/auth/query?email=prueba3@gmail.com
-
-###
+### Login
 POST http://localhost:3000/api/v1/auth/sign-in
 Content-Type: application/json
 
@@ -32,7 +28,7 @@ Content-Type: application/json
 %}
 
 ### Actualizar contraseña
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJiYWxiaXMyMDAxQGdtYWlsLmNvbSIsInJvbGVzIjpbeyJuYW1lIjoiVVNFUiJ9XSwiaWF0IjoxNzQ4MDY4OTI3LCJleHAiOjE3NDgwNzI1Mjd9.Y3viDEDazEdqPNIBg0Q0iNcPSoXsqWGZEnDSmLsBPVc
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJiYWxiaXMyMDAxQGdtYWlsLmNvbSIsInJvbGVzIjpbeyJuYW1lIjoiVVNFUiJ9XSwiaWF0IjoxNzQ4MTQ3MzYzLCJleHAiOjE3NDgxNTA5NjN9.aYEN_dMpD0A8BITOgP1vOdJPxi-ghXp4GDTuAPoC5xQ
 
 PUT http://localhost:3000/api/v1/auth/change-password
 Authorization: Bearer {{authToken}}
@@ -42,3 +38,5 @@ Content-Type: application/json
   "newPassword": "3hH%a%",
   "confirmNewPassword": "3hH%a%"
 }
+
+### Check Email

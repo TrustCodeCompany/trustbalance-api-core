@@ -25,6 +25,9 @@ import { CreateUserMapper } from '../infrastructure/mappers/create-user.mapper';
 import { GetUserProfileMapper } from '../infrastructure/mappers/get-user-profile.mapper';
 import { ChangePasswordMapper } from '../infrastructure/mappers/change-password.mapper';
 import { ChangePasswordUseCase } from '../application/use-cases/change-password.usecase';
+import { CheckEmailUseCase } from '../application/use-cases/check-email.usecase';
+import { CheckEmailMapper } from '../infrastructure/mappers/check-email.mapper';
+import { ResetPasswordUseCase } from '../application/use-cases/reset-password.usecase';
 
 @Module({
   imports: [
@@ -57,6 +60,9 @@ import { ChangePasswordUseCase } from '../application/use-cases/change-password.
     JwtAuthGuard, // Incluye el guard si lo vas a usar globalmente
     ChangePasswordMapper,
     ChangePasswordUseCase,
+    CheckEmailUseCase,
+    CheckEmailMapper,
+    ResetPasswordUseCase,
     {
       provide: 'UserRepository',
       useClass: UserRepository,
